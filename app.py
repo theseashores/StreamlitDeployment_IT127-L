@@ -58,10 +58,7 @@ if classifier == 'Support Vector Machine (SVM)':
     kernel = st.sidebar.radio("Kernel", ("rbf", "linear"), key='kernel')
     gamma = st.sidebar.radio("Gamma (Kernel Coefficient)", ("scale", "auto"), key='gamma')
 
-    metrics = st.sidebar.multiselect(
-        "What metrics to plot?",
-        ('Confusion Matrix', 'ROC Curve', 'Precision-Recall Curve')
-    )
+    metrics = st.sidebar.multiselect("What metrics to plot?", ('Confusion Matrix', 'ROC Curve', 'Precision-Recall Curve'))
 
     if st.sidebar.button("Classify", key='classify'):
         st.subheader("Support Vector Machine (SVM) Results")
@@ -70,9 +67,9 @@ if classifier == 'Support Vector Machine (SVM)':
         accuracy = model.score(x_test, y_test)
         y_pred = model.predict(x_test)
         st.write("Accuracy:", round(accuracy, 2))
-        st.write("Precision: ", round(precision_score(y_test, y_pred, average='weighted'), 2))
-        st.write("Recall: ", round(recall_score(y_test, y_pred, average='weighted'), 2))
-        plot_metrics(metrics)
+        st.write("Precision:", round(precision_score(y_test, y_pred, average='weighted'), 2))
+        st.write("Recall:", round(recall_score(y_test, y_pred, average='weighted'), 2))
+        plot_metrics(metrics, model, x_test, y_test, class_names) 
 
 if classifier == 'Logistic Regression':
     st.sidebar.subheader("Model Hyperparameters")
