@@ -52,11 +52,11 @@ class_names = ('edible', 'poisonous')
 st.sidebar.subheader("Choose Classifier")
 classifier = st.sidebar.selectbox("Classifier", {"Support Vector Machine (SVM)", "Logistic Regression", "Random Forest"})
 
-if classifier == 'Support Vector Machine (SVM)':
-    st.sidebar.subheader("Model Hyperparameters")
-    C = st. sidebar.number_input("C (Regularization parameter)", 0.01, 10.0, step=0.01, key='C')
-    kernel = st.sidebar.radio("kernel", ("rbf", "linear"), key='kernel')
-    gamma = st.sidebar.radio("Gamma (Kernel Coefficient)", ("scale", "auto"), key='gamma')
+    if classifier == 'Support Vector Machine (SVM)':
+        st.sidebar.subheader("Model Hyperparameters")
+        C = st.sidebar.number_input("C (Regularization parameter)", 0.01, 10.0, step=0.01, key='C_SVM')
+        kernel = st.sidebar.radio("Kernel", ("rbf", "linear"), key='kernel')
+        gamma = st.sidebar.radio("Gamma (Kernel Coefficient)", ("scale", "auto"), key='gamma')
 
     metrics = st.sidebar.multiselect("What metrics to plot?", ('Confusion Matrix', 'ROC Curve', 'Precision-Recall Curve'))
 
@@ -85,9 +85,9 @@ if classifier == 'Logistic Regression':
         accuracy = model.score(x_test, y_test)
         y_pred = model.predict(x_test)
         st.write("Accuracy:", round(accuracy, 2))
-        st.write("Precision: ", precision_score(y_test, y_pred, labels=class_names).round(2))
-        st.write("Recall: ", recall_score(y_test, y_pred, labels=class_names).round(2))
-        plot_metrics(metrics)
+        st.write("Precision: ", float(np.round(precision_score(y_test, y_pred, average='weighted'), 2)))
+        st.write("Recall: ", float(np.round(recall_score(y_test, y_pred, average='weighted'), 2)))
+        plot_metrics(metrics, model, x_test, y_test, class_names)
 
 if classifier == 'Random Forest':
     st.sidebar.subheader("Model Hyperparameters")
@@ -104,9 +104,9 @@ if classifier == 'Random Forest':
         accuracy = model.score(x_test, y_test)
         y_pred = model.predict(x_test)
         st.write("Accuracy:", round(accuracy, 2))
-        st.write("Precision: ", precision_score(y_test, y_pred, labels=class_names).round(2))
-        st.write("Recall: ", recall_score(y_test, y_pred, labels=class_names).round(2))
-        plot_metrics(metrics)
+        st.write("Precision: ", float(np.round(precision_score(y_test, y_pred, average='weighted'), 2)))
+        st.write("Recall: ", float(np.round(recall_score(y_test, y_pred, average='weighted'), 2)))
+        plot_metrics(metrics, model, x_test, y_test, class_names)
 
 if st.sidebar.checkbox("Show raw data", False):
    st.subheader("Mushroom Data Set (Classification)")
