@@ -30,20 +30,20 @@ def split(df):
        x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3, random_state=0)
        return x_train, x_test, y_train, y_test
 
-def plot_metrics(metrics_list):
+def plot_metrics(metrics_list, model, x_test, y_test, class_names):
     if 'Confusion Matrix' in metrics_list:
         st.subheader("Confusion Matrix")
-        ConfusionMatrixDisplay(model, x_test, y_test, display_labels=class_names)
+        ConfusionMatrixDisplay.from_estimator(model, x_test, y_test, display_labels=class_names)
         st.pyplot()
 
     if 'ROC Curve' in metrics_list:
         st.subheader("ROC Curve")
-        RocCurveDisplay(model, x_test, y_test)
+        RocCurveDisplay.from_estimator(model, x_test, y_test)
         st.pyplot()
 
-    if 'Precision-Recall Curve'in metrics_list:
+    if 'Precision-Recall Curve' in metrics_list:
         st.subheader("Precision-Recall Curve")
-        PrecisionRecallDisplay(model, x_test, y_test)
+        PrecisionRecallDisplay.from_estimator(model, x_test, y_test)
         st.pyplot()
 
 df = load_data()
