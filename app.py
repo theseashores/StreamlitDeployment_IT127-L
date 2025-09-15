@@ -52,7 +52,7 @@ class_names = ('edible', 'poisonous')
 st.sidebar.subheader("Choose Classifier")
 classifier = st.sidebar.selectbox("Classifier", {"Support Vector Machine (SVM)", "Logistic Regression", "Random Forest"})
 
-    if classifier == 'Support Vector Machine (SVM)':
+if classifier == 'Support Vector Machine (SVM)':
         st.sidebar.subheader("Model Hyperparameters")
         C = st.sidebar.number_input("C (Regularization parameter)", 0.01, 10.0, step=0.01, key='C_SVM')
         kernel = st.sidebar.radio("Kernel", ("rbf", "linear"), key='kernel')
