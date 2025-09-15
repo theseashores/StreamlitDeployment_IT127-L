@@ -53,12 +53,15 @@ st.sidebar.subheader("Choose Classifier")
 classifier = st.sidebar.selectbox("Classifier", {"Support Vector Machine (SVM)", "Logistic Regression", "Random Forest"})
 
 if classifier == 'Support Vector Machine (SVM)':
-        st.sidebar.subheader("Model Hyperparameters")
-        C = st.sidebar.number_input("C (Regularization parameter)", 0.01, 10.0, step=0.01, key='C_SVM')
-        kernel = st.sidebar.radio("Kernel", ("rbf", "linear"), key='kernel')
-        gamma = st.sidebar.radio("Gamma (Kernel Coefficient)", ("scale", "auto"), key='gamma')
+    st.sidebar.subheader("Model Hyperparameters")
+    C = st.sidebar.number_input("C (Regularization parameter)", 0.01, 10.0, step=0.01, key='C_SVM')
+    kernel = st.sidebar.radio("Kernel", ("rbf", "linear"), key='kernel')
+    gamma = st.sidebar.radio("Gamma (Kernel Coefficient)", ("scale", "auto"), key='gamma')
 
-    metrics = st.sidebar.multiselect("What metrics to plot?", ('Confusion Matrix', 'ROC Curve', 'Precision-Recall Curve'))
+    metrics = st.sidebar.multiselect(
+        "What metrics to plot?",
+        ('Confusion Matrix', 'ROC Curve', 'Precision-Recall Curve')
+    )
 
     if st.sidebar.button("Classify", key='classify'):
         st.subheader("Support Vector Machine (SVM) Results")
@@ -67,8 +70,8 @@ if classifier == 'Support Vector Machine (SVM)':
         accuracy = model.score(x_test, y_test)
         y_pred = model.predict(x_test)
         st.write("Accuracy:", round(accuracy, 2))
-        st.write("Precision: ", precision_score(y_test, y_pred, labels=class_names).round(2))
-        st.write("Recall: ", recall_score(y_test, y_pred, labels=class_names).round(2))
+        st.write("Precision: ", round(precision_score(y_test, y_pred, average='weighted'), 2))
+        st.write("Recall: ", round(recall_score(y_test, y_pred, average='weighted'), 2))
         plot_metrics(metrics)
 
 if classifier == 'Logistic Regression':
